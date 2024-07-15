@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Company } from './entity/company.entity';
@@ -7,8 +7,14 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 import { Tag } from '../tag/entity/tag.entity';
 import { PaginationQueryDto } from '../common/pagination-query.dto';
 import { Event } from '../event/entity/event.entity';
+import { COMPANY_NAMES } from './company.constants';
 
-@Injectable()
+@Injectable({
+  // scope: Scope.REQUEST, // new instance for each request
+  // scope: Scope.TRANSIENT, // new instance for each module
+  scope: Scope.DEFAULT, // singleton for the app
+})
+// @Injectable()
 export class CompanyService {
   constructor(
     @InjectRepository(Company)
@@ -16,10 +22,14 @@ export class CompanyService {
     @InjectRepository(Tag)
     private readonly tagRepo: Repository<Tag>,
     private readonly dataSource: DataSource,
-  ) {}
+    @Inject(COMPANY_NAMES) private companyNames: string[],
+  ) {
+    console.log('>companyNames', this.companyNames);
+  }
 
   async findAll(paginationQuery: PaginationQueryDto) {
     const { limit, offset } = paginationQuery;
+
     return await this.companyRepo.find({
       relations: {
         tags: true,

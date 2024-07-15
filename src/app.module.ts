@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { CompanyModule } from './company/company.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CompanyRatingModule } from './company-rating/company-rating.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         synchronize: true,
       }),
     }),
+    CompanyRatingModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
