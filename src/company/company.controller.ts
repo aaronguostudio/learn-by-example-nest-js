@@ -19,8 +19,6 @@ export class CompanyController {
 
   @Get()
   findAll(@Query() paginationQuery: PaginationQueryDto) {
-    console.log('> paginationQuery', paginationQuery);
-
     return this.companyService.findAll(paginationQuery);
   }
 
