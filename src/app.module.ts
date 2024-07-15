@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-// import { CompanyModule } from './company/company.module';
+import { CompanyModule } from './company/company.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    // CompanyModule,
+    CompanyModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
