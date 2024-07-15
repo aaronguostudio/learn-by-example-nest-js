@@ -28,13 +28,13 @@ import appConfig from './config/app.config';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: () => ({
+      useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: process.env.PG_HOST,
-        port: +process.env.PG_PORT,
-        username: process.env.PG_USER,
-        password: process.env.PG_PASS,
-        database: process.env.PG_DB,
+        host: configService.get<string>('PG_HOST', 'localhost'),
+        port: configService.get<number>('PG_PORT', 5432),
+        username: configService.get<string>('PG_USER', 'postgres'),
+        password: configService.get<string>('PG_PASS'),
+        database: configService.get<string>('PG_DB', 'postgres'),
         autoLoadEntities: true,
         synchronize: true,
       }),
