@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Company } from './entity/company.entity';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { Tag } from '../tag/entity/tag.entity';
 import { PaginationQueryDto } from '../common/pagination-query.dto';
+import { Event } from '../event/entity/event.entity';
 
 @Injectable()
 export class CompanyService {
@@ -14,6 +15,7 @@ export class CompanyService {
     private readonly companyRepo: Repository<Company>,
     @InjectRepository(Tag)
     private readonly tagRepo: Repository<Tag>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async findAll(paginationQuery: PaginationQueryDto) {
@@ -77,6 +79,34 @@ export class CompanyService {
   async delete(id: string) {
     const company = await this.findOne(id);
     return await this.companyRepo.remove(company);
+  }
+
+  async recommendCompany(company: Company) {
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      company.recommendation += 1;
+
+      const recommendEvent = new Event();
+
+      recommendEvent.name = 'recommend_company';
+      recommendEvent.type = 'company';
+      recommendEvent.payload = {
+        companyId: company.id,
+      };
+
+      await queryRunner.manager.save(company);
+      await queryRunner.manager.save(recommendEvent);
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   private async preloadTagByName(name: string) {

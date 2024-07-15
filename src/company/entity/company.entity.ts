@@ -18,6 +18,9 @@ export class Company {
   @Column()
   description: string;
 
+  @Column({ default: 0 })
+  recommendation: number;
+
   @JoinTable()
   @ManyToMany(() => Tag, (tag) => tag.companies, {
     cascade: true,
