@@ -5,14 +5,14 @@ import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
   imports: [
-    DatabaseModule.register({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5433,
-      username: 'postgres',
-      password: 'password',
-      database: 'postgres',
-    }),
+    // DatabaseModule.register({
+    //   type: 'postgres',
+    //   host: 'localhost',
+    //   port: 5433,
+    //   username: 'postgres',
+    //   password: 'password',
+    //   database: 'postgres',
+    // }),
     CompanyModule,
   ],
   providers: [CompanyRatingService],
