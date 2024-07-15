@@ -25,17 +25,17 @@ export class CompanyService {
     private readonly tagRepo: Repository<Tag>,
     private readonly dataSource: DataSource,
     @Inject(COMPANY_NAMES) private companyNames: string[],
-    private readonly configService: ConfigService,
-    @Inject(companyConfig.KEY)
-    private readonly companyConfiguration: ConfigType<typeof companyConfig>,
-  ) {
-    // console.log('>companyNames', this.companyNames);
+  ) // private readonly configService: ConfigService,
+  // @Inject(companyConfig.KEY)
+  // private readonly companyConfiguration: ConfigType<typeof companyConfig>,
+  {
+    console.log('>companyNames', this.companyNames);
     // console.log(configService.get<string>('PG_HOST'));
 
     // const companyConfigObj = this.configService.get<string>('company.name');
     // console.log('> companyConfigObj', companyConfigObj);
 
-    console.log('> companyConfiguration', this.companyConfiguration.name);
+    // console.log('> companyConfiguration', this.companyConfiguration.name);
   }
 
   async findAll(paginationQuery: PaginationQueryDto) {
