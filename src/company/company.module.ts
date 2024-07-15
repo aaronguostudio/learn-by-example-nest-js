@@ -6,6 +6,8 @@ import { Company } from './entity/company.entity';
 import { Tag } from '../tag/entity/tag.entity';
 import { Event } from '../event/entity/event.entity';
 import { COMPANY_NAME_LIST, COMPANY_NAMES } from './company.constants';
+import { ConfigModule } from '@nestjs/config';
+import companyConfig from './config/company.config';
 
 // class MockCompanyService {}
 class MockConfigService {}
@@ -20,7 +22,11 @@ export class MockCompanyNamesFactory {
 }
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Company, Tag, Event])],
+  imports: [
+    TypeOrmModule.forFeature([Company, Tag, Event]),
+    ConfigModule,
+    ConfigModule.forFeature(companyConfig), // partial registration
+  ],
   controllers: [CompanyController],
   providers: [
     CompanyService,
