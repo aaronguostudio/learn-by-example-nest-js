@@ -5,6 +5,8 @@ import { CompanyModule } from './company/company.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
+console.log('> process.env', process.env);
+
 @Module({
   imports: [
     CompanyModule,
