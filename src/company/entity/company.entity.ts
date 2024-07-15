@@ -1,4 +1,4 @@
-import { Tag } from 'src/tag/entity/tag.entity';
+import { Tag } from '../../tag/entity/tag.entity';
 import {
   Column,
   Entity,

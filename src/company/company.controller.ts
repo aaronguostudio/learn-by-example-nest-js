@@ -11,7 +11,7 @@ import {
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
-import { PaginationQueryDto } from 'src/common/pagination-query.dto';
+import { PaginationQueryDto } from '../common/pagination-query.dto';
 
 @Controller('company')
 export class CompanyController {

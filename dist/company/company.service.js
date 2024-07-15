@@ -14,9 +14,9 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CompanyService = void 0;
 const common_1 = require("@nestjs/common");
-const company_entity_1 = require("./entity/company.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
+const company_entity_1 = require("./entity/company.entity");
 const tag_entity_1 = require("../tag/entity/tag.entity");
 let CompanyService = exports.CompanyService = class CompanyService {
     constructor(companyRepo, tagRepo) {

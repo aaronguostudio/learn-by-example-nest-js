@@ -1,4 +1,4 @@
-import { Company } from 'src/company/entity/company.entity';
+import { Company } from '../../company/entity/company.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
