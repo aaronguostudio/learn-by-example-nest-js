@@ -7,14 +7,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CompanyRatingModule } from './company-rating/company-rating.module';
 import { DatabaseModule } from './database/database.module';
-import appConfig from './config/app.config';
+// import appConfig from './config/app.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
-      load: [appConfig],
+      // load: [appConfig],
       // ignoreEnvFile: process.env.NODE_ENV === 'production',
       validationSchema: Joi.object({
         PG_HOST: Joi.string().required(),
@@ -28,13 +28,13 @@ import appConfig from './config/app.config';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: () => ({
         type: 'postgres',
-        host: configService.get<string>('PG_HOST', 'localhost'),
-        port: configService.get<number>('PG_PORT', 5432),
-        username: configService.get<string>('PG_USER', 'postgres'),
-        password: configService.get<string>('PG_PASS'),
-        database: configService.get<string>('PG_DB', 'postgres'),
+        host: process.env.PG_HOST,
+        port: +process.env.PG_PORT,
+        username: process.env.PG_USER,
+        password: process.env.PG_PASS,
+        database: process.env.PG_DB,
         autoLoadEntities: true,
         synchronize: true,
       }),
