@@ -11,16 +11,17 @@ import {
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { PaginationQueryDto } from 'src/common/pagination-query.dto';
 
 @Controller('company')
 export class CompanyController {
   constructor(private readonly companyService: CompanyService) {}
 
   @Get()
-  findAll(@Query() paginationQuery) {
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
     console.log('> paginationQuery', paginationQuery);
 
-    return this.companyService.findAll();
+    return this.companyService.findAll(paginationQuery);
   }
 
   @Get(':id')

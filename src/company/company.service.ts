@@ -2,28 +2,38 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Company } from './entity/company.entity';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Tag } from 'src/tag/entity/tag.entity';
+import { PaginationQueryDto } from 'src/common/pagination-query.dto';
 
 @Injectable()
 export class CompanyService {
-  private companyList: Company[] = [
-    {
-      id: '1',
-      name: 'Company 1',
-      description: 'Description 1',
-    },
-    {
-      id: '2',
-      name: 'Company 2',
-      description: 'Description 2',
-    },
-  ];
+  constructor(
+    @InjectRepository(Company)
+    private readonly companyRepo: Repository<Company>,
+    @InjectRepository(Tag)
+    private readonly tagRepo: Repository<Tag>,
+  ) {}
 
-  findAll() {
-    return this.companyList;
+  async findAll(paginationQuery: PaginationQueryDto) {
+    const { limit, offset } = paginationQuery;
+    return await this.companyRepo.find({
+      relations: {
+        tags: true,
+      },
+      skip: offset,
+      take: limit,
+    });
   }
 
-  findOne(id: string) {
-    const found = this.companyList.find((company) => company.id === id);
+  async findOne(id: string) {
+    const found = await this.companyRepo.findOne({
+      where: { id },
+      relations: {
+        tags: true,
+      },
+    });
 
     if (!found) {
       throw new NotFoundException('Not found');
@@ -32,41 +42,54 @@ export class CompanyService {
     return found;
   }
 
-  create(companyDto: CreateCompanyDto) {
-    const company = {
-      id: 'temp',
-      ...companyDto,
-    };
-    this.companyList.push(company);
-    return company;
-  }
-
-  update(id: string, company: UpdateCompanyDto) {
-    const foundIndex = this.companyList.findIndex(
-      (company) => company.id === id,
+  async create(companyDto: CreateCompanyDto) {
+    const tags = await Promise.all(
+      companyDto.tags.map((tag) => this.preloadTagByName(tag)),
     );
 
-    if (foundIndex < 0) {
+    const company = await this.companyRepo.create({
+      ...companyDto,
+      tags,
+    });
+    return await this.companyRepo.save(company);
+  }
+
+  async update(id: string, companyDto: UpdateCompanyDto) {
+    const tags =
+      companyDto.tags &&
+      (await Promise.all(
+        companyDto.tags.map((tag) => this.preloadTagByName(tag)),
+      ));
+
+    const company = await this.companyRepo.preload({
+      id,
+      ...companyDto,
+      tags,
+    });
+
+    if (!company) {
       throw new NotFoundException('Not found');
     }
 
-    const existing = this.companyList[foundIndex];
-
-    this.companyList[foundIndex] = {
-      ...existing,
-      ...company,
-    };
-
-    return company;
+    return await this.companyRepo.save(company);
   }
 
-  delete(id: string) {
-    const foundIndex = this.companyList.findIndex(
-      (company) => company.id === id,
-    );
+  async delete(id: string) {
+    const company = await this.findOne(id);
+    return await this.companyRepo.remove(company);
+  }
 
-    if (foundIndex >= 0) {
-      this.companyList.splice(foundIndex, 1);
+  private async preloadTagByName(name: string) {
+    const existingTag = await this.tagRepo.findOne({
+      where: {
+        name,
+      },
+    });
+
+    if (existingTag) {
+      return existingTag;
     }
+
+    return this.tagRepo.create({ name });
   }
 }

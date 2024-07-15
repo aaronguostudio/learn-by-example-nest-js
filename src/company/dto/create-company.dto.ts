@@ -6,4 +6,7 @@ export class CreateCompanyDto {
 
   @IsString()
   readonly description: string;
+
+  @IsString({ each: true })
+  readonly tags: string[];
 }
