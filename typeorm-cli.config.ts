@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
-import { Company } from 'src/company/entity/company.entity';
-import { UpdateTag1721022363597 } from 'src/migrations/1721022363597-updateTag';
-import { Tag } from 'src/tag/entity/tag.entity';
+import { Company } from './src/company/entity/company.entity';
+import { UpdateTag1721022363597 } from './src/migrations/1721022363597-updateTag';
+import { Tag } from './src/tag/entity/tag.entity';
 import { DataSource } from 'typeorm';
 
 config();

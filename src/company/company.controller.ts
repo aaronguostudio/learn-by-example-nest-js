@@ -14,8 +14,8 @@ import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { PaginationQueryDto } from '../common/pagination-query.dto';
 import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/common/decorators/public.decorator';
-import { Protocol } from 'src/common/decorators/protocol.decorator';
+import { Public } from '../common/decorators/public.decorator';
+import { Protocol } from '../common/decorators/protocol.decorator';
 
 // @UsePipes(ValidationPipe)
 @ApiTags('company')

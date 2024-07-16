@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CompanyRatingService } from './company-rating.service';
-import { CompanyModule } from 'src/company/company.module';
-import { DatabaseModule } from 'src/database/database.module';
+import { CompanyModule } from '../company/company.module';
+// import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
   imports: [
