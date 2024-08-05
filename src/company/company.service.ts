@@ -8,8 +8,8 @@ import { Tag } from '../tag/entity/tag.entity';
 import { PaginationQueryDto } from '../common/pagination-query.dto';
 import { Event } from '../event/entity/event.entity';
 import { COMPANY_NAMES } from './company.constants';
-import { ConfigService, ConfigType } from '@nestjs/config';
-import companyConfig from './config/company.config';
+// import { ConfigService, ConfigType } from '@nestjs/config';
+// import companyConfig from './config/company.config';
 
 @Injectable({
   // scope: Scope.REQUEST, // new instance for each request
@@ -25,9 +25,9 @@ export class CompanyService {
     private readonly tagRepo: Repository<Tag>,
     private readonly dataSource: DataSource,
     @Inject(COMPANY_NAMES) private companyNames: string[], // private readonly configService: ConfigService,
-  ) // @Inject(companyConfig.KEY)
-  // private readonly companyConfiguration: ConfigType<typeof companyConfig>,
-  {
+  ) {
+    // @Inject(companyConfig.KEY)
+    // private readonly companyConfiguration: ConfigType<typeof companyConfig>,
     // console.log('>companyNames', this.companyNames);
     // console.log(configService.get<string>('PG_HOST'));
     // const companyConfigObj = this.configService.get<string>('company.name');

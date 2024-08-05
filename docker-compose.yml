@@ -8,3 +8,8 @@ services:
       - '5433:5432'
     environment:
       POSTGRES_PASSWORD: 'password'
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - '6379:6379'

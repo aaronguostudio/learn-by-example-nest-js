@@ -7,10 +7,10 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [ConfigModule],
   providers: [
-    {
-      provide: APP_GUARD,
-      useClass: ApiKeyGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: ApiKeyGuard,
+    // },
   ],
 })
 export class CommonModule {}

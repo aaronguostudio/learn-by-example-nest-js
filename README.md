@@ -12,3 +12,8 @@
 `npx typeorm migration:run -d dist/typeorm-cli.config`
 `npx typeorm migration:revert -d dist/typeorm-cli.config`
 `npx typeorm migration:generate src/migrations/<name> -d dist/typeorm-cli.config`
+
+
+### Repl mode
+
+`npm run start -- --entryFile repl`

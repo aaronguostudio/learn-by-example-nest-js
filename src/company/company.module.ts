@@ -10,9 +10,9 @@ import { COMPANY_NAME_LIST, COMPANY_NAMES } from './company.constants';
 // import companyConfig from './config/company.config';
 
 // class MockCompanyService {}
-class MockConfigService {}
-class MockDevConfigService {}
-class MockProdConfigService {}
+// class MockConfigService {}
+// class MockDevConfigService {}
+// class MockProdConfigService {}
 
 @Injectable()
 export class MockCompanyNamesFactory {

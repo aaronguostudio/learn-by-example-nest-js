@@ -1,4 +1,4 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import * as Joi from '@hapi/joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -7,8 +7,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CompanyRatingModule } from './company-rating/company-rating.module';
 import { DatabaseModule } from './database/database.module';
-import { APP_PIPE } from '@nestjs/core';
+// import { APP_PIPE } from '@nestjs/core';
 import { CommonModule } from './common/common.module';
+import { UserModule } from './user/user.module';
+import { IamModule } from './iam/iam.module';
 // import appConfig from './config/app.config';
 
 @Module({
@@ -44,6 +46,8 @@ import { CommonModule } from './common/common.module';
     CompanyRatingModule,
     DatabaseModule,
     CommonModule,
+    UserModule,
+    IamModule,
   ],
   controllers: [AppController],
   providers: [
